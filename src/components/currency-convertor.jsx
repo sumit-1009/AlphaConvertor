@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import CurrencyDropdown from "./currency-dropdown";
 
 const CurrencyConvertor = () => {
     const [currencies, setCurrencies] = useState([]);
     const [amount, setAmount] = useState(1);
+    const [fromCurrencies, setFromCurrencies] = useState("USD");
+    const [toCurrencies, setToCurrencies] = useState("INR");
 
     const fetchCurrencies =async () => {
         try {
@@ -21,12 +24,20 @@ const CurrencyConvertor = () => {
 
     console.log(currencies)
 
+    const convertCurrency = () => {
+
+    }
+
   return (
     <div>
       <h2 className="mb-5 text-2xl font-semibold text-gray-700 ">
         Currency Convertor
       </h2>
-      <div>Dropdowns</div>
+      <div>
+        <CurrencyDropdown />
+        Swap Currencies 
+        <CurrencyDropdown />
+      </div>
       <div className="mt-4">
         <label
           htmlFor="amount"
@@ -41,7 +52,8 @@ const CurrencyConvertor = () => {
         />
       </div>
       <div className="flex justify-end mt-6">
-        <button className="px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ">
+        <button onClick={convertCurrency}
+         className="px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ">
           Convertor
         </button>
       </div>
