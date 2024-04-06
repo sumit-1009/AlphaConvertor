@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import CurrencyDropdown from "./currency-dropdown";
+import { HiArrowsRightLeft } from "react-icons/hi2";
 
 const CurrencyConvertor = () => {
     const [currencies, setCurrencies] = useState([]);
     const [amount, setAmount] = useState(1);
-    const [fromCurrencies, setFromCurrencies] = useState("USD");
-    const [toCurrencies, setToCurrencies] = useState("INR");
+    const [fromCurrency, setFromCurrency] = useState("USD");
+    const [toCurrency, setToCurrency] = useState("INR");
 
     const fetchCurrencies =async () => {
         try {
             const res = await fetch("https://api.frankfurter.app/currencies");
             const data = await res.json();
-            setCurrencies(data);
+            setCurrencies(Object.keys(data));
       
         } catch (error) {
             console.log("Fetching Error", error);
@@ -28,15 +29,41 @@ const CurrencyConvertor = () => {
 
     }
 
+    const handleFavorite = (currency) => {
+
+    }
+
+    const swapCurrencies = () => {
+      setFromCurrency(toCurrency)
+      setToCurrency(fromCurrency)
+    }
+
   return (
     <div>
       <h2 className="mb-5 text-2xl font-semibold text-gray-700 ">
         Currency Convertor
       </h2>
-      <div>
-        <CurrencyDropdown />
-        Swap Currencies 
-        <CurrencyDropdown />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+        <CurrencyDropdown 
+              currencies={currencies} 
+              title="From:"
+              currency={fromCurrency}
+              setCurrency={setFromCurrency}
+              handleFavorite={handleFavorite}
+        />
+        {/* Swap Currencies  */}
+        <div className="flex justify-center -mb-5 sm:mb-0">
+          <button onClick={swapCurrencies} className="p-2 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300">
+            <HiArrowsRightLeft className="text-xl text-gray-700" />
+          </button>
+        </div>
+        <CurrencyDropdown 
+              currencies={currencies} 
+              title="To:" 
+              currency={toCurrency}
+              setCurrency={setToCurrency}
+              handleFavorite={handleFavorite}
+        />
       </div>
       <div className="mt-4">
         <label
